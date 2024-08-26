@@ -62,7 +62,7 @@ rootElement.innerHTML=htmlCode;
 
 const cart=document.querySelector('.cart-quantity');
 let addToCartButtonElement=document.querySelectorAll('.add-to-cart-js');
-let cartItems=getCartQuantity();
+let cartItems=0;
 addToCartButtonElement.forEach((btns)=>{
     btns.addEventListener("click",()=>{
         const{productId}=btns.dataset;
