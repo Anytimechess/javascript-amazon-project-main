@@ -1,4 +1,4 @@
-export const cartList=JSON.parse(localStorage.getItem("cartItems"))||[{
+export let cartList=JSON.parse(localStorage.getItem("cartItems"))||[{
   productId:"bc2847e9-5323-403f-b7cf-57fde044a955",
   quantity:1
 }];
@@ -28,7 +28,7 @@ export const updateCart=(productId,quantity)=>{
   }
   // console.log(cartList);
   
- localStorage.setItem("cartItems",JSON.stringify(cartList));
+  setCartToLocalStorage();
 }
 
 export const getCartQuantity=()=>{
@@ -38,4 +38,17 @@ cartList.forEach((items)=>{
 })
   localStorage.setItem("itemsCount",JSON.stringify(count))
 return count;
+}
+export const setCartToLocalStorage=()=>{
+ 
+  localStorage.setItem("cartItems",JSON.stringify(cartList));
+}
+export const removeItemsFromCart=(productId)=>{
+  console.log("hi")
+  let arr=[];
+ arr= cartList.filter((cartItems)=>cartItems.productId!==productId)
+
+  console.log(arr);
+  cartList=arr;
+  setCartToLocalStorage();
 }

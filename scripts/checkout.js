@@ -1,18 +1,24 @@
-import { cartList } from "./cart.js";
+import { cartList,removeItemsFromCart} from "./cart.js";
 import { products } from "../data/products.js";
 const orderSummaryElement=document.querySelector('.order-summary');
-// console.log(orderSummaryElement);
-let htmlAcc=``;
+
+
+displayCheckoutPage();
+function displayCheckoutPage(){  
+  
+  let htmlAcc=``; 
 cartList.forEach((checkoutProducts)=>{
+  
   let product=checkoutProducts;
   // console.log(product)
-  console.log(checkoutProducts);
+  // console.log(checkoutProducts);
    products.forEach((itemsList)=>{
-    if(itemsList.id===product.productId)
+    if(itemsList.id===checkoutProducts.productId)
     {
-      // console.log(itemsList)
-
-   htmlAcc+= `<div class="cart-item-container"> 
+   htmlAcc+= `<div class="cart-item-container
+   dataItemContainer-${itemsList.id}
+   "
+  > 
       <div class="delivery-date">
         Delivery date: Wednesday, June 15
       </div>
@@ -35,7 +41,7 @@ cartList.forEach((checkoutProducts)=>{
             <span class="update-quantity-link link-primary">
               Update
             </span>
-            <span class="delete-quantity-link link-primary">
+            <span class="delete-quantity-link link-primary delete-btn-js" data-delete-productId=${itemsList.id} >
               Delete
             </span>
           </div>
@@ -86,9 +92,20 @@ cartList.forEach((checkoutProducts)=>{
       </div>
     </div> `
     }
-
    })
-
-   orderSummaryElement.innerHTML=htmlAcc;
 })
+orderSummaryElement.innerHTML=htmlAcc;
+}
 
+// delete item feature
+let deleteBtnElemenst=document.querySelectorAll('.delete-btn-js');
+deleteBtnElemenst.forEach((btn)=>{
+  btn.addEventListener('click',()=>{
+   let {deleteProductid}=btn.dataset;
+   console.log(deleteProductid);
+   removeItemsFromCart(deleteProductid);
+   let deletedItemElement=document.querySelector(`.dataItemContainer-${deleteProductid}`);
+   deletedItemElement.remove();
+   console.log(cartList);
+  })
+});
