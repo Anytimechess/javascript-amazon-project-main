@@ -1,4 +1,4 @@
-import { cartList,removeItemsFromCart} from "./cart.js";
+import { cartList,removeItemsFromCart,getCartQuantity} from "./cart.js";
 import { products } from "../data/products.js";
 const orderSummaryElement=document.querySelector('.order-summary');
 
@@ -97,6 +97,10 @@ cartList.forEach((checkoutProducts)=>{
 orderSummaryElement.innerHTML=htmlAcc;
 }
 
+// checkoutItems 
+const checkOutItemsCount =document.querySelector('.checkout-items-count-js');
+checkOutItemsCount.innerHTML=`${getCartQuantity()} items`;
+
 // delete item feature
 let deleteBtnElemenst=document.querySelectorAll('.delete-btn-js');
 deleteBtnElemenst.forEach((btn)=>{
@@ -106,6 +110,7 @@ deleteBtnElemenst.forEach((btn)=>{
    removeItemsFromCart(deleteProductid);
    let deletedItemElement=document.querySelector(`.dataItemContainer-${deleteProductid}`);
    deletedItemElement.remove();
-   console.log(cartList);
+  //  console.log(cartList);
   })
 });
+

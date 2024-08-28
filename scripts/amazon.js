@@ -62,17 +62,22 @@ rootElement.innerHTML=htmlCode;
 
 const cart=document.querySelector('.cart-quantity');
 let addToCartButtonElement=document.querySelectorAll('.add-to-cart-js');
-let cartItems=0;
+
+
 addToCartButtonElement.forEach((btns)=>{
     btns.addEventListener("click",()=>{
+
+      let cartItemsCount=0;
         const{productId}=btns.dataset;
         // console.log(typeof productId)
         let dropDownList= document.querySelector(`.drop-down-list-js-${productId}`);
         let quantity=Number(dropDownList.value);
-        cartItems+=quantity
-
+       
         updateCart(productId,quantity);
-        cart.innerHTML=cartItems;
+        cartItemsCount+=getCartQuantity();
+
+        // localStorage.setItem('cartItemsCount',JSON.stringify(cartItemsCount));
+        cart.innerHTML=cartItemsCount;
 })
 })
 

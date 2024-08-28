@@ -37,7 +37,6 @@ export const updateCart=(productId,quantity)=>{
     {
       foundItem=cartItems;
     }
-  
   })
   
   if(foundItem)
@@ -55,12 +54,13 @@ export const updateCart=(productId,quantity)=>{
 }
 
 export const getCartQuantity=()=>{
-let count=Number(JSON.parse(localStorage.getItem("itemsCount")))||0;
+
+  let quantity=0;
 cartList.forEach((items)=>{
- count+=items.quantity
+ quantity+=items.quantity;
 })
-  localStorage.setItem("itemsCount",JSON.stringify(count))
-return count;
+
+return quantity;
 }
 export const setCartToLocalStorage=()=>{
  
