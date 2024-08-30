@@ -75,3 +75,18 @@ export const removeItemsFromCart=(productId)=>{
   cartList=arr;
   setCartToLocalStorage();
 }
+export const updateCartNewQuantity=(productId,newQunatity)=>
+{
+  let foundItem;
+  cartList.forEach((cartItems)=>{
+    if(cartItems.productId===productId)
+    {
+      foundItem=cartItems;
+    }
+  })
+  if(foundItem)
+  {
+    foundItem.quantity=newQunatity;
+  }
+  setCartToLocalStorage();
+}

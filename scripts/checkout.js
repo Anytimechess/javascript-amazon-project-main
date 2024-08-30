@@ -1,4 +1,4 @@
-import { cartList,removeItemsFromCart,getCartQuantity} from "./cart.js";
+import { cartList,removeItemsFromCart,getCartQuantity,updateCartNewQuantity} from "./cart.js";
 import { products } from "../data/products.js";
 const orderSummaryElement=document.querySelector('.order-summary');
 
@@ -16,8 +16,7 @@ cartList.forEach((checkoutProducts)=>{
     if(itemsList.id===checkoutProducts.productId)
     {
    htmlAcc+= `<div class="cart-item-container
-   dataItemContainer-${itemsList.id}
-   "
+   dataItemContainer-${itemsList.id}"
   > 
       <div class="delivery-date">
         Delivery date: Wednesday, June 15
@@ -36,11 +35,15 @@ cartList.forEach((checkoutProducts)=>{
           </div>
           <div class="product-quantity">
             <span>
-              Quantity: <span class="quantity-label">${product.quantity}</span>
+              Quantity: <span class="quantity-label quantity-label-${itemsList.id}">${product.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
+            <span class="update-quantity-link link-primary update-btn-js" data-update-id=${itemsList.id}>
               Update
             </span>
+            <input type="text" class="
+            updatequantity
+            quantity-input-${itemsList.id} ">
+            <span class="save-quantity-link link-primary" data-save-Btn="${itemsList.id}">Save</span>
             <span class="delete-quantity-link link-primary delete-btn-js" data-delete-productId=${itemsList.id} >
               Delete
             </span>
@@ -54,7 +57,7 @@ cartList.forEach((checkoutProducts)=>{
 
           <div class="delivery-option">
             <input type="radio" class="delivery-option-input"
-              name="delivery-option-2">
+              name="delivery-option-${itemsList.id}">
             <div>
               <div class="delivery-option-date">
                 Tuesday, June 21
@@ -66,7 +69,7 @@ cartList.forEach((checkoutProducts)=>{
           </div>
           <div class="delivery-option">
             <input type="radio" checked class="delivery-option-input"
-              name="delivery-option-2">
+              name="delivery-option-${itemsList.id}">
             <div>
               <div class="delivery-option-date">
                 Wednesday, June 15
@@ -78,7 +81,7 @@ cartList.forEach((checkoutProducts)=>{
           </div>
           <div class="delivery-option">
             <input type="radio" class="delivery-option-input"
-              name="delivery-option-2">
+              name="delivery-option-${itemsList.id}">
             <div>
               <div class="delivery-option-date">
                 Monday, June 13
@@ -98,9 +101,11 @@ orderSummaryElement.innerHTML=htmlAcc;
 }
 
 // checkoutItems 
-const checkOutItemsCount =document.querySelector('.checkout-items-count-js');
-checkOutItemsCount.innerHTML=`${getCartQuantity()} items`;
-
+function count(){
+  const checkOutItemsCount =document.querySelector('.checkout-items-count-js');
+  checkOutItemsCount.innerHTML=`${getCartQuantity()} items`;  
+}
+count();
 // delete item feature
 let deleteBtnElemenst=document.querySelectorAll('.delete-btn-js');
 deleteBtnElemenst.forEach((btn)=>{
@@ -111,6 +116,38 @@ deleteBtnElemenst.forEach((btn)=>{
    let deletedItemElement=document.querySelector(`.dataItemContainer-${deleteProductid}`);
    deletedItemElement.remove();
   //  console.log(cartList);
+  count();
   })
 });
 
+//making update button interactive
+const updateBtnElements=document.querySelectorAll('.update-btn-js');
+
+updateBtnElements.forEach((updateBtn)=>{
+  updateBtn.addEventListener('click',()=>{
+    const updateProductId=updateBtn.dataset.updateId;
+    const containerElement=document.querySelector(`.dataItemContainer-${updateProductId}`);
+    // console.log(containerElement)
+
+    containerElement.classList.add('is-editing');
+  })
+})
+
+const saveBtnElement=document.querySelectorAll('.save-quantity-link');
+// console.log(saveBtnElement);
+saveBtnElement.forEach((saveBtn)=>{
+  saveBtn.addEventListener('click',()=>{
+   const productId=saveBtn.dataset.saveBtn;
+  //  console.log(productId);
+  let containerElement=document.querySelector(`.dataItemContainer-${productId}`);
+ 
+  let inputElement=document.querySelector(`.quantity-input-${productId}`);
+  let updateQuantity=Number(inputElement.value);
+  const quantityLabelElement=document.querySelector(`.quantity-label-${productId}`);
+  quantityLabelElement.innerHTML=updateQuantity; 
+
+  updateCartNewQuantity(productId,updateQuantity);
+  count();
+   containerElement.classList.remove('is-editing');
+  })
+})

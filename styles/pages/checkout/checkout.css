@@ -209,3 +209,17 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+.updatequantity{
+  width: 30px;
+  display:none ;
+}
+.save-quantity-link{
+  width: 30px;
+  display: none;
+}
+.is-editing .updatequantity{
+  display: inherit;
+}
+.is-editing .save-quantity-link{
+  display: inherit;
+}

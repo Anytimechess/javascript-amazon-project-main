@@ -63,21 +63,23 @@ rootElement.innerHTML=htmlCode;
 const cart=document.querySelector('.cart-quantity');
 let addToCartButtonElement=document.querySelectorAll('.add-to-cart-js');
 
-
+function cartCount()
+{
+  let quantity=getCartQuantity();
+  cart.innerHTML=quantity;
+}
+cartCount();
 addToCartButtonElement.forEach((btns)=>{
     btns.addEventListener("click",()=>{
 
-      let cartItemsCount=0;
+      
         const{productId}=btns.dataset;
         // console.log(typeof productId)
         let dropDownList= document.querySelector(`.drop-down-list-js-${productId}`);
         let quantity=Number(dropDownList.value);
        
         updateCart(productId,quantity);
-        cartItemsCount+=getCartQuantity();
-
-        // localStorage.setItem('cartItemsCount',JSON.stringify(cartItemsCount));
-        cart.innerHTML=cartItemsCount;
+        cartCount();
 })
 })
 
