@@ -1,6 +1,9 @@
+// import { deliveryOptions } from "./updateDeliveryOptions";
+
 export let cartList=JSON.parse(localStorage.getItem("cartItems"))||[{
   productId:"bc2847e9-5323-403f-b7cf-57fde044a955",
-  quantity:1
+  quantity:1,
+  deliveryId:'1'
 }];
 // export const updateCart=(productId,quantity)=>{
 //   cartList.forEach((values,i)=>{
@@ -46,7 +49,8 @@ export const updateCart=(productId,quantity)=>{
     else{
       cartList.push({
         productId,
-        quantity
+        quantity,
+        deliveryId:'1'
       })
     }
     console.log(cartList);
@@ -89,4 +93,20 @@ export const updateCartNewQuantity=(productId,newQunatity)=>
     foundItem.quantity=newQunatity;
   }
   setCartToLocalStorage();
+}
+export function updateCartOption(productId,deliveryOptionId)
+{
+  let foundItem;
+  cartList.forEach((items)=>{
+
+     if(productId===items.productId)
+     {
+      foundItem=items;
+     }
+  })
+  if(foundItem)
+  {
+    foundItem.deliveryId=deliveryOptionId;
+  }
+   setCartToLocalStorage();
 }
