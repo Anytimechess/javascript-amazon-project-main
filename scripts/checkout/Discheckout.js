@@ -1,12 +1,13 @@
-import { cartList,removeItemsFromCart,getCartQuantity,updateCartNewQuantity,updateCartOption} from "./cart.js";
-import { products } from "../data/products.js";
+import { cartList,removeItemsFromCart,getCartQuantity,updateCartNewQuantity,updateCartOption} from "../cart.js";
+import { products } from "../../data/products.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions } from "./updateDeliveryOptions.js";
-
+import { deliveryOptions } from "../updateDeliveryOptions.js";
+import { orderSummary } from "./ordersummary.js";
+import { checkoutHeader } from "../checkoutHeader.js";
 const orderSummaryElement=document.querySelector('.order-summary');
 
 displayCheckoutPage();
-function displayCheckoutPage(){  
+export function displayCheckoutPage(){  
   
   let htmlAcc=``; 
 cartList.forEach((checkoutProducts)=>{
@@ -81,11 +82,11 @@ cartList.forEach((checkoutProducts)=>{
 orderSummaryElement.innerHTML=htmlAcc;
 
 // checkoutItems 
-function count(){
-  const checkOutItemsCount =document.querySelector('.checkout-items-count-js');
-  checkOutItemsCount.innerHTML=`${getCartQuantity()} items`;  
-}
-count();
+// function count(){
+//   const checkOutItemsCount =document.querySelector('.checkout-items-count-js');
+//   checkOutItemsCount.innerHTML=`${getCartQuantity()} items`;  
+// }
+// count();
 // delete item feature
 let deleteBtnElemenst=document.querySelectorAll('.delete-btn-js');
 deleteBtnElemenst.forEach((btn)=>{
@@ -93,10 +94,14 @@ deleteBtnElemenst.forEach((btn)=>{
    let {deleteProductid}=btn.dataset;
    console.log(deleteProductid);
    removeItemsFromCart(deleteProductid);
-   let deletedItemElement=document.querySelector(`.dataItemContainer-${deleteProductid}`);
-   deletedItemElement.remove();
+  //  let deletedItemElement=document.querySelector(`.dataItemContainer-${deleteProductid}`);
+  // //  deleteBtnElemenst.
+  //  deletedItemElement.remove();
   //  console.log(cartList);
-  count();
+  displayCheckoutPage();
+  orderSummary();
+  // count();
+  checkoutHeader();
   })
 });
 
@@ -123,12 +128,17 @@ saveBtnElement.forEach((saveBtn)=>{
  
   let inputElement=document.querySelector(`.quantity-input-${productId}`);
   let updateQuantity=Number(inputElement.value);
-  const quantityLabelElement=document.querySelector(`.quantity-label-${productId}`);
-  quantityLabelElement.innerHTML=updateQuantity; 
+  // const quantityLabelElement=document.querySelector(`.quantity-label-${productId}`);
+  // quantityLabelElement.innerHTML=updateQuantity; 
 
   updateCartNewQuantity(productId,updateQuantity);
-  count();
+  // count();
+  // checkoutHeader();
+  // orderSummary();
    containerElement.classList.remove('is-editing');
+   displayCheckoutPage();
+   orderSummary();
+   checkoutHeader();
   })
 })
 
@@ -163,6 +173,7 @@ radioElements.forEach((options)=>{
     //  console.log(productId);
     updateCartOption(productId,optionId);
     displayCheckoutPage();
+    orderSummary();
   })
 })
 }
